@@ -11,7 +11,7 @@
 using namespace std;
 
 // SETTING PARAMETER //
-const int linecut = 8;  // cutting lineno
+// const int linecut = 8;  // cutting lineno
 
 // Normalization factor setting //
 // const double NB =  0.00092507;
@@ -27,12 +27,16 @@ const int linecut = 8;  // cutting lineno
 // const double NB =  12.8021;
 // const double NE =  117424;
 // NAME :  Wien_180621_ver5_3DBOpera  //
-const double NB =  12.8057;
-const double NE =  200521;
+// const double NB =  12.8057;
+// const double NE =  200521;
+// NAME :  Wien_180621_ver5_3DBOpera : 0550_musr.mac //
+const double NE = 181911;
+const double NB = 12.50;
 
 
 const double B0y = -0.177722; // [Tesla]
-const double E0x = -4.2638E+6; // [V/m]
+// const double E0x = -4.2638E+6; // [V/m]
+const double E0x = -4.2638; // [kV/mm]
 
 // int main(){
 // void plot_map(string filebase = "/Users/YASUDA/data/muonLinac/sr/EBmap/Wien_180614_ver1_3DBOpera.dat"){
@@ -157,9 +161,9 @@ void plot_map(){
         // x.push_back(  xi );
         // y.push_back(  yi );
         // z.push_back(  zi );
-        Ex.push_back( Fxi );
-        Ey.push_back( Fyi );
-        Ez.push_back( Fzi );
+        Ex.push_back( Fxi * 1.e-6 ); // unit V/m -> kV/mm
+        Ey.push_back( Fyi * 1.e-6 );
+        Ez.push_back( Fzi * 1.e-6 );
 
         // Initialize the contents unit //
         xi=0;
@@ -249,17 +253,23 @@ void plot_map(){
 
 
     c2->cd();
-    gBy->Draw("AP");
-    gBy->SetMarkerStyle(21);
-    gBy->SetMarkerSize(1);
-    gBy->GetXaxis()->SetTitle("z [mm]");
-    gBy->GetXaxis()->SetRangeUser(-1000,1000);
-    gBy->GetYaxis()->SetTitle("By [Tesla]");
-    gBy->GetYaxis()->SetRangeUser(B0y-0.02,+0.02);
-    gByn->Draw("SAMEP");
+    // gBy->Draw("AP");
+    // gBy->SetMarkerStyle(21);
+    // gBy->SetMarkerSize(1);
+    // gBy->GetXaxis()->SetTitle("z [mm]");
+    // gBy->GetXaxis()->SetRangeUser(-1000,1000);
+    // gBy->GetYaxis()->SetTitle("By [Tesla]");
+    // gBy->GetYaxis()->SetRangeUser(B0y-0.02,+0.02);
+    // gByn->Draw("SAMEP");
+    gByn->Draw("AP");
     gByn->SetMarkerStyle(20);
     gByn->SetMarkerSize(1);
-    gByn->SetMarkerColor(2);
+    // gByn->SetMarkerColor(2);
+    gByn->SetMarkerColor(1);
+    gByn->GetXaxis()->SetTitle("z [mm]");
+    gByn->GetXaxis()->SetRangeUser(-1000,1000);
+    gByn->GetYaxis()->SetTitle("By [Tesla]");
+    gByn->GetYaxis()->SetRangeUser(B0y-0.02,+0.02);
     // gByu->Draw("SAMEP");
     // gByu->SetMarkerStyle(22);
     // gByu->SetMarkerSize(1);
@@ -285,14 +295,18 @@ void plot_map(){
     gExn->Draw("AP");
     gExn->SetMarkerStyle(21);
     gExn->SetMarkerSize(1);
-    gExn->SetMarkerColor(2);
+    // gExn->SetMarkerColor(2);
+    gExn->SetMarkerColor(1);
     gExn->GetXaxis()->SetTitle("z [mm]");
     gExn->GetXaxis()->SetRangeUser(-1000,1000);
-    gExn->GetYaxis()->SetRangeUser(E0x-4e+5,4e+5);
-    gExn->GetYaxis()->SetTitle("Ex [V/m]");
-    gEx->Draw("SAMEP");
-    gEx->SetMarkerStyle(20);
-    gEx->SetMarkerSize(1);
+    // gExn->GetYaxis()->SetRangeUser(E0x-4e+5,4e+5); // unit V/m
+    gExn->GetYaxis()->SetRangeUser(E0x-0.4,0.4); // unit V/m -> kV/mm
+    // gExn->GetYaxis()->SetTitle("Ex [V/m]");
+    gExn->GetYaxis()->SetTitle("Ex [kV/mm]");
+
+    // gEx->Draw("SAMEP");
+    // gEx->SetMarkerStyle(20);
+    // gEx->SetMarkerSize(1);
     // gExu->Draw("SAMEP");
     // gExu->SetMarkerStyle(22);
     // gExu->SetMarkerSize(1);
@@ -309,7 +323,8 @@ void plot_map(){
     gEyn->SetMarkerColor(2);
     gEyn->GetXaxis()->SetTitle("z [mm]");
     gEyn->GetXaxis()->SetRangeUser(-1000,1000);
-    gEyn->GetYaxis()->SetTitle("Ey [V/m]");
+    // gEyn->GetYaxis()->SetTitle("Ey [V/m]");
+    gEyn->GetYaxis()->SetTitle("Ey [kV/mm]");
     gEy->Draw("SAMEP");
     gEy->SetMarkerStyle(20);
     gEy->SetMarkerSize(1);
@@ -322,7 +337,8 @@ void plot_map(){
     gEzn->SetMarkerColor(2);
     gEzn->GetXaxis()->SetTitle("z [mm]");
     gEzn->GetXaxis()->SetRangeUser(-1000,1000);
-    gEzn->GetYaxis()->SetTitle("Ez [V/m]");
+    // gEzn->GetYaxis()->SetTitle("Ez [V/m]");
+    gEzn->GetYaxis()->SetTitle("Ez [kV/mm]");
     gEz->Draw("SAMEP");
     gEz->SetMarkerStyle(20);
     gEz->SetMarkerSize(1);

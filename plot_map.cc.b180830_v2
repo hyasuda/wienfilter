@@ -1,0 +1,123 @@
+// This macro is to plot the map excluded from OPERA //
+// This is made on 13, June, 2018.  by H. Yasuda //
+
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <iterator>
+#include <vector>
+#include <sstream>
+#include <math.h>
+using namespace std;
+
+// SETTING PARAMETER //
+const int linecut = 8;  // cutting lineno
+
+string input;
+string filebase;
+ifstream Eifs;
+ifstream Bifs;
+const int nEB = 2;
+const int nxyz = 3;
+TGraph *gf[nEB][nxyz];
+
+// FUNCTION DEFINITION //
+void read(string str);
+void plot_set();
+void plot_draw();
+
+void plot_map(string input = "Wien_180614_ver1"){
+
+    cout << scientific;
+    cout << "%%%%% START %%%%%" << endl;
+
+    gROOT->SetStyle("Plain");
+    gROOT->Reset();
+    gStyle->SetPadGridX(1);
+    gStyle->SetPadGridY(1);
+
+
+    read(input);
+    plot_set();
+    plot_draw();
+
+}
+
+void read(string str){
+    // TString dir = "/Users/YASUDA/data/muonLinac/sr/EBmap/";
+    // TString Ename = "_3DEOpera.dat"; // E-file
+    // TString Bname = "_3DBOpera.dat"; // B-file
+    stringstream Efilename;
+    stringstream Bfilename;
+    string dir = "/Users/YASUDA/data/muonLinac/sr/EBmap/";
+    string Ename = "_3DEOpera.dat"; // E-file
+    string Bname = "_3DBOpera.dat"; // B-file
+    filebase = str;
+    Efilename << dir.c_str() << filebase.c_str() << Ename.c_str();
+    ifstream Eifs(Efilename.str().c_str(), std::ios::in);
+    if(!Eifs.good()){
+        cout << "##### ERROR : CANNOT OPEN " << Efilename.str().c_str() << endl;
+    }
+    cout << Efilename.str().c_str() << " : Reading ... " << endl;
+    Bfilename << dir.c_str() << filebase.c_str() << Bname.c_str();
+    ifstream Bifs(Bfilename.str().c_str(), std::ios::in);
+    if(!Bifs.good()){
+        cout << "##### ERROR : CANNOT OPEN " << Bfilename.str().c_str() << endl;
+    }
+    cout << Bfilename.str().c_str() << " : Reading ... " << endl;
+}
+
+void plot_set(){
+
+    for(int j = 0 ; j < nEB ; j++){
+        for(int i = 0 ; i < nxyz ; i++){
+            gf[j][i] = new TGraph();
+        }
+    }
+
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double Ex = 0;
+    double Ey = 0;
+    double Ez = 0;
+    double Bx = 0;
+    double By = 0;
+    double Bz = 0;
+    int ipoint = 0;
+    cout << "checker : ";
+    cout << Eifs.good() << endl;
+
+    while(Eifs >> x >> y >> z >> Ex >> Ey >> Ez){
+        cout << x << "\t" << y << "\t" << z << "\t" << Ex << "\t" << Ey << "\t" << Ez << endl;
+        // if(x != 0 ^ y != 0) continue;
+        cout << x << "\t" << y << "\t" << z << "\t" << Ex << "\t" << Ey << "\t" << Ez << endl;
+        gf[0][0]->SetPoint(ipoint, z, Ex);
+        gf[0][1]->SetPoint(ipoint, z, Ey);
+        gf[0][2]->SetPoint(ipoint, z, Ez);
+        ipoint++;
+    }
+    cout << "Point number of E-field = " << ipoint << endl;
+    ipoint = 0;
+    while(Bifs >> x >> y >> z >> Bx >> By >> Bz){
+        cout << x << "\t" << y << "\t" << z << "\t" << Bx << "\t" << By << "\t" << Bz << endl;
+        if(x != 0 || y != 0) continue;
+        gf[1][0]->SetPoint(ipoint, z, Bx);
+        gf[1][1]->SetPoint(ipoint, z, By);
+        gf[1][2]->SetPoint(ipoint, z, Bz);
+        ipoint++;
+    }
+    cout << "Point number of B-field = " << ipoint << endl;
+    ipoint = 0;
+}
+
+void plot_draw(){
+    TCanvas * c0 = new TCanvas("c0","c0",800,1200);
+    c0->Divide(2,3);
+    for(int j = 0 ; j < nEB ; j++){
+        for(int i = 0 ; i < nxyz ; i++){
+            c0->cd(j*3 + i);
+            gf[j][i]->Draw("AP");
+        }
+    }
+}

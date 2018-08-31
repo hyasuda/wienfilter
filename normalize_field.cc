@@ -16,8 +16,8 @@ const int linecut = 8;  // cutting lineno
 // const double E0x = -4.2638E+6; // [V/m]   After RFQ output Rough
 const double B0y = -0.176828; // [Tesla]     After RFQ output real
 const double E0x = -4.21972E+6; // [V/m]     After RFQ output real
-const double B0y_sum = -0.176828; // [Tesla]     After RFQ output real
-const double E0x_sum = -4.21972E+6; // [V/m]     After RFQ output real
+const double B0y_sum = -0.0884151; // [Tesla]     After RFQ output real
+const double E0x_sum = -2.10989e+06; // [V/m]     After RFQ output real
 const double Le = 0.5; // [m]
 
 
@@ -153,8 +153,10 @@ int main(){
     cout << "Ex_sum" << "\t" << "By_sum" << endl;
     cout <<  Ex_sum  << "\t" <<  By_sum  << endl;
 
-    cout << "NE = (E0x*Le)/Ex_sum = " << NE << endl;
-    cout << "NB = (B0y*Le)/By_sum = " << NB << endl;
+    // cout << "NE = (E0x/*Le)/Ex_sum = " << NE << endl;
+    // cout << "NB = (B0y*Le)/By_sum = " << NB << endl;
+    cout << "NE = E0x_sum/Ex_sum = " << NE << endl;
+    cout << "NB = B0y_sum/By_sum = " << NB << endl;
 
     cout << "%%%%% FINISHED %%%%%" << endl;
 }

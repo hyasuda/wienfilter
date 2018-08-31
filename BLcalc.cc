@@ -19,8 +19,8 @@ const double d     = 0.1     ; // Gap length [m]
 // In our case : after H- RFQ
 const double alpha = 180; // spin flip [deg]
 // const double alpha = 90; // spin rotation [deg]
-const double beta  = 0.08; // velocity of muon : RFQ out rough
-// const double beta  = 0.0796; // velocity of muon : After RFQ out realistic
+// const double beta  = 0.08; // velocity of muon : RFQ out rough
+const double beta  = 0.0796; // velocity of muon : After RFQ out realistic
 // const double beta  = 0.01; // velocity of muon : USM
 // ref. Proc. of PAC07, B.Steiner, et.al, (2007)
 // const double alpha = 90; // spin rotation [deg]
@@ -71,7 +71,9 @@ void BLcalc(double Le = 0.5){
 
     const int n = 1000; // entries
     double x[n], y1[n], y2[n];
-    const double Le_max = 10;// Maximum of effective length Le [m]
+    // const double Le_max = 10;// Maximum of effective length Le [m]
+    // const double Le_max = 5;// Maximum of effective length Le [m]
+    const double Le_max = 3;// Maximum of effective length Le [m]
 
     // For beta = 0.001
     // const double By_max = 0.001; // Maximum range of By [T]
@@ -79,10 +81,12 @@ void BLcalc(double Le = 0.5){
 
     // For beta = 0.008
     const double By_max = 0.5; // Maximum range of By [T]
-    const double Ex_max = 5.E+6; // Maximum range of By [V/]
+    // const double Ex_max = 5.E+6; // Maximum range of Ex [V/m]
+    const double Ex_max = 5.; // Maximum range of Ex [kV/mm]
 
     // TCanvas * c1 = new TCanvas("c1","Ex-By - L relation");
-    TCanvas * c1 = new TCanvas("c1","c1",1000,500);
+    // TCanvas * c1 = new TCanvas("c1","c1",1000,500);
+    TCanvas * c1 = new TCanvas("c1","c1",500,500);
     // c1->SetTitle("Ex-By - Le relation");
     TPad * pad = new TPad("pad","",0,0,1,1);
     // pad->SetLogy();
@@ -100,7 +104,7 @@ void BLcalc(double Le = 0.5){
         x[i] = (i+1) * Le_max / n;
 
         y1[i] = ( alpha * pi / 180) * gamma * m_mu * beta / c / x[i] ;
-        y2[i] = beta * c * y1[i] ;
+        y2[i] = beta * c * y1[i] * 1.e-6 ;
 
         if(x[i] == 0.5) {
             cout << "##### CALCULATION OF BE - FIELD #####" << endl
@@ -138,7 +142,7 @@ void BLcalc(double Le = 0.5){
 
     // Draw an axis on the right side
     TGaxis * axis = new TGaxis(xmax, ymin, xmax, ymax, ymin, ymax, 510,"+L");
-    axis->SetTitle("E-field [V/m]");
+    axis->SetTitle("E-field [kV/mm]");
     axis->SetTitleColor(kRed);
     axis->SetLineColor(kRed);
     axis->SetLabelColor(kRed);
