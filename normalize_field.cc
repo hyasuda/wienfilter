@@ -14,10 +14,12 @@ using namespace std;
 const int linecut = 8;  // cutting lineno
 // const double B0y = -0.177722; // [Tesla]  After RFQ output Rough
 // const double E0x = -4.2638E+6; // [V/m]   After RFQ output Rough
-const double B0y = -0.176828; // [Tesla]     After RFQ output real
-const double E0x = -4.21972E+6; // [V/m]     After RFQ output real
-const double B0y_sum = -0.0884151; // [Tesla]     After RFQ output real
-const double E0x_sum = -2.10989e+06; // [V/m]     After RFQ output real
+// const double B0y = -0.176828; // [Tesla]     After RFQ output real // beta = 0.0796
+const double B0y = 0.176987; // [Tesla]     After RFQ output real // beta = 0.07967
+// const double E0x = -4.21972E+6; // [V/m]     After RFQ output real // beta = 0.0796
+const double E0x = 4.22723e+06; // [V/m]     After RFQ output real // beta = 0.07967
+// const double B0y_sum = -0.0884151; // [Tesla]     After RFQ output real // beta = 0.0796
+// const double E0x_sum = -2.10989e+06; // [V/m]     After RFQ output real // beta = 0.0796
 const double Le = 0.5; // [m]
 
 
@@ -144,6 +146,8 @@ int main(){
     // CALCULATION OF NORMALIZATION FACTOR //
     // NE = (E0x*Le)/Ex_sum; // (V/m * m) / (V/m * m)
     // NB = (B0y*Le)/By_sum; // (Tesla * m) / (V/m * m)
+    double E0x_sum = E0x * Le;
+    double B0x_sum = B0x * Le;
     NE = (E0x_sum)/Ex_sum; // (V/m * m) / (V/m * m)
     NB = (B0y_sum)/By_sum; // (Tesla * m) / (V/m * m)
 

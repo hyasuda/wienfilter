@@ -20,7 +20,7 @@ const double d     = 0.1     ; // Gap length [m]
 const double alpha = 180; // spin flip [deg]
 // const double alpha = 90; // spin rotation [deg]
 // const double beta  = 0.08; // velocity of muon : RFQ out rough
-const double beta  = 0.0796; // velocity of muon : After RFQ out realistic
+const double beta  = 0.07967; // velocity of muon : After RFQ out realistic
 // const double beta  = 0.01; // velocity of muon : USM
 // ref. Proc. of PAC07, B.Steiner, et.al, (2007)
 // const double alpha = 90; // spin rotation [deg]

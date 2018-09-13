@@ -55,6 +55,7 @@ void plot_map(string filebase = "Wien_180614_ver1"){
     ifstream Eifs(Efilename.str().c_str(), std::ios::in);
     ifstream Bifs(Bfilename.str().c_str(), std::ios::in);
 
+
     double val[6] = {};
     int iline = 0;
     int ipoint = 0;
